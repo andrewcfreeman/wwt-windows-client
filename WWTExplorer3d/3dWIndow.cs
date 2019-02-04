@@ -1619,20 +1619,21 @@ namespace TerraViewer
 
             var t = System.Threading.Tasks.Task.Run(() =>
             {
-
+                Catalogs.Initializing = true;
                 LoadExploreRoot();
                 if (explorerRoot != null)
                 {
                     ContextSearch.AddFolderToSearch(explorerRoot, true);
                 }
                 ContextSearch.AddCatalogs(true);
+                Catalogs.LoadSearchTable();
                 ContextSearch.Initialized = true;
             });
 
 
-            BackInitDelegate initBackground = SearchInit;
+            //BackInitDelegate initBackground = SearchInit;
 
-            initBackground.BeginInvoke(null, null);
+            //initBackground.BeginInvoke(null, null);
 
             this.WindowState = FormWindowState.Maximized;
 
@@ -2372,7 +2373,7 @@ namespace TerraViewer
                 tourEdit.TourEditorUI.Close();
                 tourEdit.Close();
                 tourEdit = null;
-                uiController = null;
+                UiController = null;
                 Settings.TourSettings = null;
                 if (toursTab == null)
                 {
@@ -2594,7 +2595,7 @@ namespace TerraViewer
 
                             if (tourEdit.Tour.EditMode && !TourPlayer.Playing)
                             {
-                                uiController = tourEdit.TourEditorUI;
+                                UiController = tourEdit.TourEditorUI;
                             }
                             TimeLine.SetTour(tourEdit.Tour);
                         }
@@ -6985,7 +6986,7 @@ namespace TerraViewer
                         {
                             // We can't really tell where this image came from so dirty everything.
                             FolderBrowser.AllDirty = true;
-                            uiController = new ImageAlignmentUI();
+                            UiController = new ImageAlignmentUI();
                             RenderEngine.StudyOpacity = 50;
 
                         }
@@ -6995,7 +6996,7 @@ namespace TerraViewer
                             {
                                 ((ImageAlignmentUI)uiController).Close();
                             }
-                            uiController = null;
+                            UiController = null;
                         }
                         break;
 
@@ -11089,7 +11090,14 @@ namespace TerraViewer
                         Samp.sampKnownTableIds.Add(ID, layer);
 
                     }
-                    Samp.sampKnownTableUrls.Add(url, layer);
+                    try
+                    {
+                        Samp.sampKnownTableUrls.Add(url, layer);
+                    }
+                    catch
+                    {
+
+                    }
                     viewer.Layer = layer;
                     viewer.Show();
                     ShowLayersWindows = true;
