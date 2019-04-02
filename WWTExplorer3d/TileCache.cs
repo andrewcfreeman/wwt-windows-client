@@ -267,13 +267,13 @@ namespace TerraViewer
             queueMutex.ReleaseMutex();
 			return array;
 		}
-        public static int maxTileCacheSize = 1200;
-        public static int maxReadyToRenderSize = 600;
+        public static int maxTileCacheSize = 12000;
+        public static int maxReadyToRenderSize = 6000;
 
 
-        static int maxTotalToPurge = 100;
+        static int maxTotalToPurge = 1000;
 
-        static int purgeFrequesncy = 30;
+        static int purgeFrequesncy = 600;
         static int purgeCallCount = 0;
         static SortedList<int, Tile> notReadyCullList = new SortedList<int, Tile>();
         static SortedList<int, Tile> readyCullList = new SortedList<int, Tile>();
